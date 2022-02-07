@@ -1,0 +1,23 @@
+image: node:lts-alpine3.14
+
+variables:
+  BUILD_VERSION: 0.0.1
+
+stages:
+  - prepare
+  - test
+
+cache:
+  paths:
+    - node_modules/
+
+sast:
+  stage: test
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
+show-var-prepare:
+  stage: prepare
+  script:
+    - export
+    - echo $BUILD_VERSION
