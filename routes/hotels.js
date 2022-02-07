@@ -3,6 +3,18 @@ const router = express.Router();
 
 const Hotel = require('../models/hotelModel');
 
+// get aall hotels
+router.get('/allHotels', (req, res, next) => {
+    // Hotel.find({name: req.query.hotelName})
+    // .then( hotels => res.send(hotels));
+    Hotel.find()
+        .populate('rooms')
+        .exec( (err, hotels) => {
+            if(err) { res.send({error: err.message}) }
+            else { res.send(hotels) }
+        });
+});
+
 // get a list of hotels from db
 router.get('/hotels', (req, res, next) => {
     // Hotel.find({name: req.query.hotelName})

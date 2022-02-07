@@ -8,11 +8,11 @@ http POST ${ENDPOINT}/hotels name=Panorama stars=4
 http POST ${ENDPOINT}/rooms hotel=Excelsior number=13 type=Suite price=50 maxGuests=2
 
 # List of rooms at Excelsior
-http GET http://localhost:3000/api/rooms hotel=Excelsior
+http GET ${ENDPOINT}/rooms hotel=Excelsior
 
 # Make a reseervation for the Excelsior
-http POST http://localhost:3000/api/bookings hotel=Excelsior checkin="01/05/2021" checkout="07/05/2021" amount=50 guests=2 nights=6 adults=1 children=1
+http POST ${ENDPOINT}/bookings hotel=Excelsior checkin="01/05/2021" checkout="07/05/2021" amount=50 guests=2 nights=6 adults=1 children=1
 
 # See all reservations for the Excelsior
-http GET http://localhost:3000/api/bookings hotel=Excelsior
+http GET ${ENDPOINT}/bookings hotel=Excelsior
 

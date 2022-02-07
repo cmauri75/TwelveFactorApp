@@ -1,0 +1,12 @@
+{
+  "name": "Twelve Factor example app",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "node server.js"
+  },
+
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.2.0"
+  }
+}
