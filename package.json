@@ -1,12 +1,28 @@
 {
-  "name": "Twelve Factor example app",
-  "version": "0.0.1",
-  "scripts": {
-    "start": "node server.js"
+  "name": "twelvefactorapp",
+  "version": "0.0.2",
+  "description": "Example app for The Twelve Factor",
+  "main": "server.js",
+  "directories": {
+    "test": "tests"
   },
-
   "dependencies": {
     "express": "^4.17.2",
     "mongoose": "^6.2.0"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmauri75/TwelveFactorApp.git"
+  },
+  "author": "CMauri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cmauri75/TwelveFactorApp/issues"
+  },
+  "homepage": "https://github.com/cmauri75/TwelveFactorApp#readme"
 }
