@@ -1,12 +1,13 @@
 {
   "name": "twelvefactorapp",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Example app for The Twelve Factor",
   "main": "server.js",
   "directories": {
     "test": "tests"
   },
   "dependencies": {
+    "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "mongoose": "^6.2.0"
   },

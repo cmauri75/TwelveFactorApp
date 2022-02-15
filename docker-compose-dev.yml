@@ -1,18 +1,24 @@
 version: '3.1'
 
 services:
-
-  mongo:
+  mongo_dev:
     image: mongo
     restart: always
     ports:
       - 27017:27017
     volumes:
       - /data/db
+    networks:
+      - dev_net
   mongo-express:
     image: mongo-express
     restart: always
     ports:
       - 8081:8081
     environment:
-      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+      ME_CONFIG_MONGODB_URL: mongodb://mongo_dev:27017/
+    networks:
+      - dev_net
+networks:
+  dev_net:
+    external: false

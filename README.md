@@ -12,13 +12,18 @@ It concentrates on stateless app in cloud.
 ## Local Prepare
 Start with
 ```
-source ./.env
+source ./dev.env.sh
 docker-compose up
 npm install
 npm start
 ```
 
 `setup.sh` executes some calls in order to create an initial state for testing. 
+
+To run from docker accessing local docker-compose machine you can override MONGO_HOST with local IP
+```
+docker run -e MONGO_HOST=10.10.0.15 -p3000:3000 twelvefactor
+```
 
 ## Descrption
 
@@ -38,8 +43,16 @@ App can be started via npm, endpoints are read via .env file read by process.env
 1. Codebase: Git for versioning, you find code position and history. 1->1 app and code. 1-N code and deploy.
 2. Dependencies: are store in MANIFEST: package/docker-config, build is reproducible you find exactly what you need and versions. Dependencies must be separated from code
 3. Config: Separate config from code, must be stored in environment
-4. Backing services: Backend services are managed as "attached resources" I can attach or removed on demand via an URL. So our services are stateless, state is in another place (backend service) I can attach if needed. 
-5. Build, release, run:
-6. Processes: 
-* 
+4. Backing services: Backend services are managed as "attached resources" I can attach or removed on demand via an URL. So our services are stateless, state is in another place I can attach if needed. 
+5. Build, release, run. Process must be managed by reproducible tools, build is more packaging than compile. Docker in our case.
+6. Processes: App must be a bunch of stateless modules, state is stored in backend service. Less deploy complexity, I can scale fast. It's related to microservices:
+   1. Isolated
+   2. Domain driven
+   3. Asynchronous communication
+   4. Stateless
+7. Port binding: export service to external world via port-binding, so a service can be scaled via different multiple ports.
 * Reproduction: use of docker for infrastructure
+
+
+## Curiosity
+node_modules in dockerignore is used in order to avoid sending the dir to docker_daemon 

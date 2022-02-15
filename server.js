@@ -30,12 +30,12 @@ let url = `mongodb://${mongoHost}:${mongoPort}/${dbName}`;
         await mongoose.connect(url, {
             "useNewUrlParser": true,
             "useUnifiedTopology": true,
-            'serverSelectionTimeoutMS': 2000
+            'serverSelectionTimeoutMS': 100
         })
         console.log("Database connected!")
         mongoose.Promise = global.Promise;
     } catch (e) {
-        console.log("Impossible to connect to database: test")
+        console.log("Impossible to connect to database")
     }
 
     app.listen(appPort, () => {
