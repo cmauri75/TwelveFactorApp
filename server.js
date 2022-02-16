@@ -18,6 +18,10 @@ app.use('/api', require('./routes/users'));
 app.use('/api', require('./routes/bookings'));
 app.use('/api', require('./routes/rooms'));
 
+app.use('/version', function (req,res) {
+    res.status(200).send('Version 0.0.3')
+})
+
 app.use((err, req, res, next) => {
     res.status(422).send({error: err.message});
 });

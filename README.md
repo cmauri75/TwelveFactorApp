@@ -37,8 +37,6 @@ App can be started via npm, endpoints are read via .env file read by process.env
 * Service must be stateless, else it's hard move from a container to another, obstruct deployment. 
 * An example of state is trying multiple DB access. Don't do it, if it fails app exit fast.
 
-
-
 ## Application of principles:
 1. Codebase: Git for versioning, you find code position and history. 1->1 app and code. 1-N code and deploy.
 2. Dependencies: are store in MANIFEST: package/docker-config, build is reproducible you find exactly what you need and versions. Dependencies must be separated from code
@@ -51,7 +49,10 @@ App can be started via npm, endpoints are read via .env file read by process.env
    3. Asynchronous communication
    4. Stateless
 7. Port binding: export service to external world via port-binding, so a service can be scaled via different multiple ports.
-* Reproduction: use of docker for infrastructure
+8. Concurrency
+9. Disposability
+10. Dev/prod parity: dev and prod should be exactly same env. Developer should deploy: devops base
+11. Logs: It regards observability. Logs should be stored outside container, so other tool will take care of collecting and searching. A good practice is to treat logs as "flow", winston do it in javascript.
 
 
 ## Curiosity
