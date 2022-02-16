@@ -23,8 +23,6 @@ show-var-prepare:
   script:
     - export
     - echo $BUILD_VERSION
-    - export VERSION= ``eval $PACKAGE_VERSION``
-    - echo $VERSION
 
 # Build the code in local machine
 yarn-build:
