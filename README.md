@@ -22,7 +22,8 @@ npm start
 
 To run from docker accessing local docker-compose machine you can override MONGO_HOST with local IP
 ```
-docker run -e MONGO_HOST=10.10.0.15 -p3000:3000 twelvefactor
+docker build . -t twelvefactor:0.1.1
+docker run -e MONGO_HOST=10.10.0.15 -p80:3000 twelvefactor
 ```
 
 ## Descrption

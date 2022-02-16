@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 RUN npm install -g npm@8.5.0
 
 COPY package*.json ./
-RUN npm install
+RUN yarn
 
 COPY ./server.js /usr/src/app/server.js
 COPY ./models /usr/src/app/models
@@ -16,4 +16,4 @@ ENV MONGO_PORT=27017
 ENV MONGO_DB=twelvefactor
 ENV PORT=3000
 
-CMD ["npm","run","start"]
+CMD ["yarn","start"]

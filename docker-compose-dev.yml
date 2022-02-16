@@ -3,7 +3,7 @@ version: '3.1'
 services:
   mongo_dev:
     image: mongo
-    restart: always
+    restart: on-failure
     ports:
       - 27017:27017
     volumes:
@@ -12,7 +12,7 @@ services:
       - dev_net
   mongo-express:
     image: mongo-express
-    restart: always
+    restart: on-failure
     ports:
       - 8081:8081
     environment:

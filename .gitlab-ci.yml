@@ -1,11 +1,10 @@
 image: node:lts-alpine3.14
 
-variables:
-  BUILD_VERSION: 0.0.1
-
 stages:
   - prepare
+  - build
   - test
+  - deploy preview
 
 cache:
   paths:
@@ -21,3 +20,25 @@ show-var-prepare:
   script:
     - export
     - echo $BUILD_VERSION
+
+# Build the code in local machine
+next-build:
+  stage: build
+  before_script:
+    - npm install
+  script:
+    - yarn build
+
+#Create runnable docker image and push in local registry
+docker:
+  stage: deploy preview
+  image: docker:19
+  services:
+    - docker:19-dind
+  script:
+    - export VERSION=$(node -p "require('./package.json').version")
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY/cmauri/$CI_PROJECT_NAME:latest .
+    - docker tag $CI_REGISTRY/cmauri/$CI_PROJECT_NAME:latest $CI_REGISTRY/cmauri/$CI_PROJECT_NAME:$VERSION
+    - docker push $CI_REGISTRY/cmauri/$CI_PROJECT_NAME:latest
+    - docker push $CI_REGISTRY/cmauri/$CI_PROJECT_NAME:$VERSION

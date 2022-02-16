@@ -1,6 +1,6 @@
 {
   "name": "twelvefactorapp",
-  "version": "0.0.3",
+  "version": "0.1.1",
   "description": "Example app for The Twelve Factor",
   "main": "server.js",
   "directories": {

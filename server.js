@@ -3,6 +3,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const app = express()
 
+var pjson = require('./package.json');
+
+
 let mongoHost = process.env.MONGO_HOST;
 let mongoPort = process.env.MONGO_PORT;
 let dbName = process.env.MONGO_DB;
@@ -19,7 +22,7 @@ app.use('/api', require('./routes/bookings'));
 app.use('/api', require('./routes/rooms'));
 
 app.use('/version', function (req,res) {
-    res.status(200).send('Version 0.0.3')
+    res.status(200).send(`Version ${pjson.version}`)
 })
 
 app.use((err, req, res, next) => {
