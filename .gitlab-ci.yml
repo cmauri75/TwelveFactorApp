@@ -1,5 +1,8 @@
 image: node:lts-alpine3.14
 
+variables:
+  PACKAGE_VERSION: $(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed 's/[version:,\",]//g' | tr -d '[[:space:]]')
+
 stages:
   - prepare
   - build
@@ -20,6 +23,8 @@ show-var-prepare:
   script:
     - export
     - echo $BUILD_VERSION
+    - export VERSION= ``eval $PACKAGE_VERSION``
+    - echo $VERSION
 
 # Build the code in local machine
 yarn-build:
@@ -34,7 +39,7 @@ docker:
   services:
     - docker:19-dind
   script:
-    - export VERSION=$(node -p "require('./package.json').version")
+    - export VERSION= ``eval $PACKAGE_VERSION``
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:latest .
     - docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$VERSION
