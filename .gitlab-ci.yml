@@ -1,13 +1,14 @@
 image: node:lts-alpine3.14
 
 variables:
-  PACKAGE_VERSION: $(cat package.json | grep version | head -1 | awk -F= "{ print $2 }" | sed 's/[version:,\",]//g' | tr -d '[[:space:]]')
+  PACKAGE_VERSION: $(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g'  | tr -d '[[:space:]]')
 
 stages:
   - prepare
   - build
   - test
   - deploy preview
+  - finalize
 
 cache:
   paths:
@@ -37,9 +38,15 @@ docker:
   services:
     - docker:19-dind
   script:
-    - export VERSION= ``eval $PACKAGE_VERSION``
+    - export VERSION=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g'  | tr -d '[[:space:]]')
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:latest .
     - docker tag $CI_REGISTRY_IMAGE:latest $CI_REGISTRY_IMAGE:$VERSION
     - docker push $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:$VERSION
+
+checkvars:
+  stage: finalize
+  script:
+    - export VERSION= ``eval $PACKAGE_VERSION``
+    - echo "======> Getting VERSION: $VERSION" `

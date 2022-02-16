@@ -51,7 +51,7 @@ App can be started via npm, endpoints are read via .env file read by process.env
    4. Stateless
 7. Port binding: export service to external world via port-binding, so a service can be scaled via different multiple ports.
 8. Concurrency
-9. Disposability
+9. Disposability: code must be ready to die with no side-effects. Fast startup & gracefully shutdown. Health and readiness are related to this principle.
 10. Dev/prod parity: dev and prod should be exactly same env. Developer should deploy: devops base
 11. Logs: It regards observability. Logs should be stored outside container, so other tool will take care of collecting and searching. A good practice is to treat logs as "flow", winston do it in javascript.
 

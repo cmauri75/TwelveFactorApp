@@ -11,6 +11,8 @@ let mongoPort = process.env.MONGO_PORT;
 let dbName = process.env.MONGO_DB;
 let appPort = process.env.PORT;
 
+let isReady = false;
+
 app.use(bodyParser.json());
 console.log('App started!');
 
@@ -21,8 +23,17 @@ app.use('/api', require('./routes/users'));
 app.use('/api', require('./routes/bookings'));
 app.use('/api', require('./routes/rooms'));
 
-app.use('/version', function (req,res) {
+app.use('/version', function (req, res) {
     res.status(200).send(`Version ${pjson.version}`)
+})
+
+app.use('/health', function (req, res) {
+    res.status(200).send('Alive')
+})
+
+app.use('/readiness', function (req, res) {
+    let status = isReady ? 200 : 500;
+    res.status(status).send(`status: ${pjson.status}`)
 })
 
 app.use((err, req, res, next) => {
@@ -32,7 +43,7 @@ app.use((err, req, res, next) => {
 // Database URL
 let url = `mongodb://${mongoHost}:${mongoPort}/${dbName}`;
 
-( async () => {
+(async () => {
     try {
         await mongoose.connect(url, {
             "useNewUrlParser": true,
@@ -41,9 +52,32 @@ let url = `mongodb://${mongoHost}:${mongoPort}/${dbName}`;
         })
         console.log("Database connected!")
         mongoose.Promise = global.Promise;
+        isReady = true;
+
+        mongoose.connection.on('connected', () => {
+            console.log(`Mongoose connected`);
+        });
+        mongoose.connection.on('error', (err) => {
+            console.log('Mongoose connection error:', err);
+        });
+        mongoose.connection.on('disconnected', () => {
+            console.log('Mongoose disconnected');
+            isReady = false;
+            process.exit(2)
+        });
+
     } catch (e) {
         console.log("Impossible to connect to database")
+        process.exit(1)
     }
+
+    // For Heroku app termination
+    process.on('SIGTERM', () => {
+        gracefulShutdown('Heroku app shutdown', () => {
+            process.exit(0);
+        });
+    });
+
 
     app.listen(appPort, () => {
         console.log(`App listening at http://localhost:${appPort}`)
