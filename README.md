@@ -14,8 +14,8 @@ Start with
 ```
 source ./dev.env.sh
 docker-compose up
-npm install
-npm start
+yarn
+yarn start
 ```
 
 `setup.sh` executes some calls in order to create an initial state for testing. 

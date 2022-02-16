@@ -22,12 +22,10 @@ show-var-prepare:
     - echo $BUILD_VERSION
 
 # Build the code in local machine
-next-build:
+yarn-build:
   stage: build
-  before_script:
-    - npm install
   script:
-    - yarn build
+    - yarn
 
 #Create runnable docker image and push in local registry
 docker:
