@@ -22,11 +22,23 @@ yarn start
 
 To run from docker accessing local docker-compose machine you can override MONGO_HOST with local IP
 ```
-docker build . -t twelvefactor:0.1.1
+docker build . -t twelvefactor:0.1.2
 docker run -e MONGO_HOST=10.10.0.15 -p80:3000 twelvefactor
 ```
 
-## Descrption
+## Docker swarm
+```
+docker swarm init
+docker stack deploy --compose-file docker-compose-app.yml twelvefactor-stack
+docker stack ls
+docker stack services twelvefactor-stack
+
+sudo npm install -g autocannon
+autocannon localhost/api/bookings
+```
+
+
+## Description
 
 Node app with 4 Express endpoints for managing hotels bookings, user, rooms. Data is stored on Mongo and accessed via mongoose.
 
@@ -50,7 +62,7 @@ App can be started via npm, endpoints are read via .env file read by process.env
    3. Asynchronous communication
    4. Stateless
 7. Port binding: export service to external world via port-binding, so a service can be scaled via different multiple ports.
-8. Concurrency: system garantee scalability via process instead of thread
+8. Concurrency: system guarantee scalability via process instead of thread. An orchestrator is needed like kubernetes or docker swarm. 
 9. Disposability: code must be ready to die with no side-effects. Fast startup & gracefully shutdown. Health and readiness are related to this principle.
 10. Dev/prod parity: dev and prod should be exactly same env. Developer should deploy: devops base
 11. Logs: It regards observability. Logs should be stored outside container, so other tool will take care of collecting and searching. A good practice is to treat logs as "flow", winston do it in javascript.

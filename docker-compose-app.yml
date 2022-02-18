@@ -3,14 +3,14 @@ version: '3.1'
 services:
   mongo:
     image: mongo
-    restart: on-failure
     volumes:
       - /data/db
     networks:
       - app_net
   application:
-    image: twelvefactor
-    restart: on-failure
+    image: registry.gitlab.com/cmauri/twelvefactorapp:latest
+    deploy:
+      replicas: 10
     ports:
       - 80:3000
     environment:
@@ -20,6 +20,8 @@ services:
       PORT: 3000
     networks:
       - app_net
+    depends_on:
+      - mongo
 networks:
   app_net:
     external: false
