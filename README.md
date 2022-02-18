@@ -35,8 +35,12 @@ docker stack services twelvefactor-stack
 
 sudo npm install -g autocannon
 autocannon localhost/api/bookings
+
+docker volume create portainer_data
+docker run -d -p 9000:9000 -p 9443:9443 --name portainer --restart=always  -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data cr.portainer.io/portainer/portainer-ce:2.9.3
 ```
 
+on http://localhost:9000 you can manage swarm 
 
 ## Description
 
@@ -62,11 +66,11 @@ App can be started via npm, endpoints are read via .env file read by process.env
    3. Asynchronous communication
    4. Stateless
 7. Port binding: export service to external world via port-binding, so a service can be scaled via different multiple ports.
-8. Concurrency: system guarantee scalability via process instead of thread. An orchestrator is needed like kubernetes or docker swarm. 
+8. Concurrency: system guarantee scalability via process instead of thread. An orchestrator is needed like kubernetes or docker swarm. Portainer also is involved.
 9. Disposability: code must be ready to die with no side-effects. Fast startup & gracefully shutdown. Health and readiness are related to this principle.
 10. Dev/prod parity: dev and prod should be exactly same env. Developer should deploy: devops base
 11. Logs: It regards observability. Logs should be stored outside container, so other tool will take care of collecting and searching. A good practice is to treat logs as "flow", winston do it in javascript.
-
+12. Admin processes. Maintenance tasks should be inside app, for example db migration or runtime shell. Task must be secured.
 
 ## Curiosity
 node_modules in dockerignore is used in order to avoid sending the dir to docker_daemon 
