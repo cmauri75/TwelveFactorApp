@@ -74,3 +74,6 @@ App can be started via npm, endpoints are read via .env file read by process.env
 
 ## Curiosity
 node_modules in dockerignore is used in order to avoid sending the dir to docker_daemon 
+
+# Credits
+Thanks to: [Michele Mastrogiovanni on Codemotion ](https://www.codemotion.com/learning/tp/sviluppo-di-un-software-di-prenotazione-che-rispetta-12-factor-app-1133)
